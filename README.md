@@ -9,3 +9,6 @@
 
 # Requirements:
 # go get golang.org/x/exp/rand
+
+
+# Testing Git without -m
