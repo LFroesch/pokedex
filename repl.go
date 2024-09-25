@@ -5,7 +5,16 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/LFroesch/pokedex/internal/pokeapi"
 )
+
+type config struct {
+	pokeapiClient       pokeapi.Client
+	nextLocationAreaURL *string
+	prevLocationAreaURL *string
+	caughtPokemon       map[string]pokeapi.Pokemon
+}
 
 func startRepl(cfg *config) {
 	// Create a scanner that scans the std input of the CLI
@@ -65,10 +74,30 @@ func getCommands() map[string]cliCommand {
 			description: "Lists the previous page of location areas",
 			callback:    callbackMapb,
 		},
+		"inspect": {
+			name:        "release <pokemon_name>",
+			description: "release a caught Pokemon",
+			callback:    callbackInspect,
+		},
+		"release": {
+			name:        "inspect <pokemon_name>",
+			description: "View details about a caught Pokemon",
+			callback:    callbackRelease,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "View your caught pokemon in your pokedex",
+			callback:    callbackPokedex,
+		},
 		"explore": {
-			name:        "explore {location_area}",
+			name:        "explore <location_area>",
 			description: "Lists the pokemon in a location area",
 			callback:    callbackExplore,
+		},
+		"catch": {
+			name:        "catch <pokemon_name>",
+			description: "Attempt to catch a pokemon and add it to your pokedex",
+			callback:    callbackCatch,
 		},
 		"exit": {
 			name:        "exit",
